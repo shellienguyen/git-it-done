@@ -1,4 +1,18 @@
+let limitWarningEl = document.querySelector( "#limit-warning" );
 let issueContainerEl = document.querySelector( "#issues-container" );
+
+let displayWarning = function( repo ) {
+   // Add text to warning container
+   limitWarningEl.textContent = "To see more than 30 issues, visit ";
+
+   let linkEl = document.createElement( "a" );
+   linkEl.textContent = "See More Issues on GitHub.Com";
+   linkEl.setAttribute( "href", "https://github.com/" + repo + "/issues" );
+   linkEl.setAttribute( "target", "_blank" );
+
+   // Append to warning container
+   limitWarningEl.appendChild( linkEl );
+};
 
 let displayIssues = function( issues ) {
 
@@ -16,7 +30,7 @@ let displayIssues = function( issues ) {
 
       // Create a <span> to hold issue title
       let titleEl = document.createElement( "span" );
-      titleEl.textContent = issues[ i ].title;
+      titleEl.textContent = ( i + 1 ) + ".) " + issues[ i ].title;
 
       // Append to container
       issueEl.appendChild( titleEl );
@@ -49,6 +63,11 @@ let getRepoIssues = function( repo ) {
          response.json().then( function( data ) {
             // Pass response data to DOM function
             displayIssues( data );
+
+            // Check if api has paginated issues
+            if ( response.headers.get( "Link" )) {
+               displayWarning( repo );
+            };
          });
       } else {
          alert( "There was a problem with your request!" );
@@ -56,4 +75,4 @@ let getRepoIssues = function( repo ) {
    });
 };
 
-getRepoIssues( "facebook/react" );
+getRepoIssues( "expressjs/express" );
