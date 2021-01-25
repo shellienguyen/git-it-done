@@ -58,15 +58,17 @@ let displayRepos = function( repos, searchTerm ) {
    // Loop over repos to display on webpage
    for ( let i = 0; i < repos.length; i++ ){
       // Format repo name
-      let repoName = ( i + 1 ) + ".) " + repos[ i ].owner.login + "/" + repos[ i ].name;
+      let repoName = repos[ i ].owner.login + "/" + repos[ i ].name;
+      let repoNameDisplay = ( i + 1 ) + ".) " + repos[ i ].owner.login + "/" + repos[ i ].name;
 
-      // Create a container for each repo
-      let repoEl = document.createElement( "div" );
+      // Create a link for each repo
+      let repoEl = document.createElement( "a" );
       repoEl.classList = "list-item flex-row justify-space-between align-center";
+      repoEl.setAttribute( "href", "./single-repo.html?repo=" + repoName );
 
       // Create a span element to hold repository name
       let titleEl = document.createElement( "span" );
-      titleEl.textContent = repoName;
+      titleEl.textContent = repoNameDisplay;
 
       // Append repository name <span> child to <div> container
       repoEl.appendChild( titleEl );

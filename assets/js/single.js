@@ -1,5 +1,24 @@
 let limitWarningEl = document.querySelector( "#limit-warning" );
 let issueContainerEl = document.querySelector( "#issues-container" );
+let repoNameEl = document.querySelector( "#repo-name" );
+
+let getRepoName = function() {
+   // Grab the repo name from the url query string
+   let queryString = document.location.search;
+   let repoName = queryString.split( "=" )[ 1 ];
+
+   if ( repoNameEl ) {
+      // Display repo name on the page
+      repoNameEl.textContent = repoName;
+      getRepoIssues( repoName );
+   }
+   else {
+      // If no repo name was given, redirect to the main page
+      document.location.replace( "./index.html" );
+   };
+
+   console.log( repoName );
+};
 
 let displayWarning = function( repo ) {
    // Add text to warning container
@@ -70,9 +89,11 @@ let getRepoIssues = function( repo ) {
             };
          });
       } else {
-         alert( "There was a problem with your request!" );
+         // If unseccessful, redirect to the main page
+         document.location.replace( "./index.html" );
       };
    });
 };
 
-getRepoIssues( "expressjs/express" );
+//getRepoIssues( "expressjs/express" );
+getRepoName();
